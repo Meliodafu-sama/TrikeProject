@@ -7,7 +7,13 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 import styles from "./SearchBoxStyles";
 
-export const SearchBox = ({getInputData, toggleSearchResultModal, getAddressPredictions}) => {
+export const SearchBox = ({
+		getInputData, 
+		toggleSearchResultModal, 
+		getAddressPredictions,
+		selectedAddress,
+	}) => {
+	const { selectedPickUp, selectedDropOff } = selectedAddress || {};
 	function handleInput(key, val){
 		getInputData({
 			key,
@@ -28,10 +34,11 @@ export const SearchBox = ({getInputData, toggleSearchResultModal, getAddressPred
 							style={styles.inputSearch}
 							placeholder="Choose pick-up location"
 							onChangeText={handleInput.bind(this, "pickUp")}
+							value={selectedPickUp && selectedPickUp.name}
 						/>
 					</InputGroup>
 				</View>
-
+				
 				<View style={styles.secondInputWrapper}>
 					<Text style={styles.label}>DROP-OFF</Text>
 					<InputGroup>
@@ -41,6 +48,7 @@ export const SearchBox = ({getInputData, toggleSearchResultModal, getAddressPred
 							style={styles.inputSearch}
 							placeholder="Choose drop-off location"
 							onChangeText={handleInput.bind(this, "dropOff")}
+							value={selectedDropOff && selectedDropOff.name}
 						/>
 					</InputGroup>
 				</View>
@@ -48,4 +56,5 @@ export const SearchBox = ({getInputData, toggleSearchResultModal, getAddressPred
 			</View>
 		);
 	};
+
 export default SearchBox;

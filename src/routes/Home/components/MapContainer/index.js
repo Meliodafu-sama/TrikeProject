@@ -13,7 +13,9 @@ export const MapContainer = ({
 		toggleSearchResultModal,
 		getAddressPredictions,
 		resultTypes,
-		predictions}) => {
+		predictions,
+		getSelectedAddress,
+		selectedAddress}) => {
 
 	return (
 		<View style={styles.container}>
@@ -31,9 +33,11 @@ export const MapContainer = ({
 				getInputData={getInputData}
 				toggleSearchResultModal={toggleSearchResultModal}
 				getAddressPredictions={getAddressPredictions}
+				selectedAddress={selectedAddress}
 			/>
 			{ (resultTypes.pickUp || resultTypes.dropOff) &&
-			<SearchResults predictions={predictions}/>
+			<SearchResults predictions={predictions}
+				getSelectedAddress={getSelectedAddress}/>
 			}
 		</View>
 	)
