@@ -1,9 +1,15 @@
 import update from "react-addons-update";
 import constants from "./actionConstants";
-import { Dimensions } from "react-native"
+import { Dimensions } from "react-native";
+import RNGooglePlaces from "react-native-google-places";
 
 //Constants -----
-const { GET_CURRENT_LOCATION } = constants;
+const { 
+	GET_CURRENT_LOCATION,
+	GET_INPUT, 
+	TOGGLE_SEARCH_RESULT,
+	GET_ADDRESS_PREDICTIONS
+} = constants;
 
 const { width, height } = Dimensions.get("window");
 
@@ -28,7 +34,41 @@ export function getCurrentLocation(){
 	}
 }
 
+//GETS USER INPUT
+export function getInputData(payload){
+	return{
+		type:GET_INPUT,
+		payload
+	}
+}
+//toogle search
+export function toggleSearchResultModal(payload){
+	return{
+		type:TOGGLE_SEARCH_RESULT,
+		payload
+	}
+}
+//Get address on GMPlaces
+export function getAddressPredictions(){
+	return(dispatch, store)=>{
+		let userInput = store().home.resultTypes.pickUp ? store().home.inputData.pickUp : store().home.inputData.dropOff;
+		RNGooglePlaces.getAutocompletePredictions(userInput,
+			{
+				country:"PH"
+			}
+		)
+		.then((results)=>
+			dispatch({
+				type:GET_ADDRESS_PREDICTIONS,
+				payload:results
+			})
+		)
+		.catch((error)=> console.log(error.message));
+	};
+}
+
 //Action Handlers
+//--- gets user current location
 function handleGetCurrentLocation(state, action){
 	return update(state, {
 		region:{
@@ -48,12 +88,73 @@ function handleGetCurrentLocation(state, action){
 	})
 }
 
+function handleGetInputDate(state, action){
+	const { key, value } = action.payload;
+	return update(state, {
+		inputData:{
+			[key]:{
+				$set:value
+			}
+		}
+	});
+}
+
+//
+function handleToggleSearchResult(state, action){
+	if(action.payload === "pickUp"){
+		return update(state, {
+			resultTypes:{
+				pickUp:{
+					$set:true,
+				},
+				dropOff:{
+					$set:false
+				}
+			},
+			predictions:{
+				$set:{}
+			}
+
+		});
+	}
+	if(action.payload === "dropOff"){
+		return update(state, {
+			resultTypes:{
+				pickUp:{
+					$set:false,
+				},
+				dropOff:{
+					$set:true
+				}
+			},
+			predictions:{
+				$set:{}
+			}
+
+		});
+	}
+
+}
+//ADDRESS PREDICTIONS - handler
+function handleGetAddressPredictions(state, action){
+	return update(state, {
+		predictions:{
+			$set:action.payload
+		}
+	})
+}
+
 const ACTION_HANDLERS = {
-	GET_CURRENT_LOCATION: handleGetCurrentLocation
+	GET_CURRENT_LOCATION:handleGetCurrentLocation,
+	GET_INPUT:handleGetInputDate,
+	TOGGLE_SEARCH_RESULT:handleToggleSearchResult,
+	GET_ADDRESS_PREDICTIONS:handleGetAddressPredictions,
 }
 
 const initialState = {
-	region:{}
+	region:{},
+	inputData:{},
+	resultTypes:{}
 };
 
 export function HomeReducer (state = initialState, action){

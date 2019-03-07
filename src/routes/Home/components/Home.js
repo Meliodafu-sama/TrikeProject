@@ -26,7 +26,13 @@ export default class Home extends React.Component{
 		return (
 		<Container>
 			{this.props.region.latitude &&
-			< MapContainer region={this.props.region} />
+			<MapContainer region={this.props.region} 
+					getInputData={this.props.getInputData}
+					toggleSearchResultModal={this.props.toggleSearchResultModal}
+					getAddressPredictions={this.props.getAddressPredictions}
+					resultTypes={this.props.resultTypes}
+					predictions={this.props.predictions}
+			/>
 			}
 		</Container>
 		);
