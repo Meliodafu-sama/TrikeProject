@@ -7,6 +7,10 @@ import { Container } from "native-base";
 
 import MapContainer from "./MapContainer";
 import { getCurrentLocation } from "../modules/home";
+import HeaderComponent from "../../../components/HeaderComponent";
+import FooterComponent from "../../../components/FooterComponent";
+
+const taxiLogo = require("../../../assets/img/taxi_logo_white.png")
 
 export default class Home extends React.Component{
 
@@ -25,6 +29,7 @@ export default class Home extends React.Component{
 
 		return (
 		<Container>
+			<HeaderComponent logo={taxiLogo}/>
 			{this.props.region.latitude &&
 			<MapContainer region={this.props.region} 
 					getInputData={this.props.getInputData}
@@ -34,6 +39,7 @@ export default class Home extends React.Component{
 					predictions={this.props.predictions}
 			/>
 			}
+			<FooterComponent/>
 		</Container>
 		);
 	}
