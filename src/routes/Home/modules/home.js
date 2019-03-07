@@ -88,7 +88,7 @@ function handleGetCurrentLocation(state, action){
 	})
 }
 
-function handleGetInputDate(state, action){
+function handleGetInputData(state, action){
 	const { key, value } = action.payload;
 	return update(state, {
 		inputData:{
@@ -146,7 +146,7 @@ function handleGetAddressPredictions(state, action){
 
 const ACTION_HANDLERS = {
 	GET_CURRENT_LOCATION:handleGetCurrentLocation,
-	GET_INPUT:handleGetInputDate,
+	GET_INPUT:handleGetInputData,
 	TOGGLE_SEARCH_RESULT:handleToggleSearchResult,
 	GET_ADDRESS_PREDICTIONS:handleGetAddressPredictions,
 }

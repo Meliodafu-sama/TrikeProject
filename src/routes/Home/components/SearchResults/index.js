@@ -11,7 +11,7 @@ export const SearchResults = ({predictions}) => {
 
 	return(
 		<View style = {styles.searchResultsWrapper}>
-			<FlatList
+			<List
 				dataArray={predictions}
 				renderRow={(item)=>
 					<View>
@@ -26,7 +26,7 @@ export const SearchResults = ({predictions}) => {
 						</ListItem>
 					</View>
 					}
-				/>
+			/>
 		</View>
 	);
 
