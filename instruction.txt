@@ -1,0 +1,15 @@
+In order to run server
+
+cd to Project/Server and type nodemon
+
+then go to browser localhost:3000
+
+@mongodb.com -> Cluster Name: FProject/Singapore Server
+
+DB: meliodas22 = meliodas22
+
+"userName":"gab",
+"pickUp":"Quezon City",
+"dropOff":"Manila City",
+
+
