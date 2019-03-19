@@ -2,10 +2,14 @@ import update from "react-addons-update";
 import constants from "./actionConstants";
 import { Dimensions } from "react-native";
 import RNGooglePlaces from "react-native-google-places";
+//gives suggestions regarding what you type on the textbox
 
 import request from "../../../util/request";
+//for superagent - superagent handles the transaction between app
+//and database
 
-import calculateFare from "../../../util/fareCalculator";
+import calculateFare from "../../../util/fareCalculator"; 
+//change matrix according to tricycle tariff 
 
 //Constants -----
 const { 
@@ -16,6 +20,7 @@ const {
 	GET_SELECTED_ADDRESS,
 	GET_DISTANCE_MATRIX,
 	GET_FARE,
+	BOOK_CAR,
 } = constants;
 
 const { width, height } = Dimensions.get("window");
@@ -123,11 +128,46 @@ export function getSelectedAddress(payload){
 				}
 
 
-			},2000)
+			},1000)
 
 		})
 		.catch((error)=> console.log(error.message));
 	}
+}
+// BOOK CAR
+export function bookCar(){
+	return (dispatch, store)=>{
+		const payload = {
+			data: {
+				userName: "gab",
+				pickUp: {
+					address:store().home.selectedAddress.selectedPickUp.address,
+					name:store().home.selectedAddress.selectedPickUp.name,
+					latitude:store().home.selectedAddress.selectedPickUp.latitude,
+					longitude:store().home.selectedAddress.selectedPickUp.latitude
+				},
+				dropOff: {
+					address:store().home.selectedAddress.selectedDropOff.address,
+					name:store().home.selectedAddress.selectedDropOff.name,
+					latitude:store().home.selectedAddress.selectedDropOff.latitude,
+					longitude:store().home.selectedAddress.selectedDropOff.latitude
+				},
+				fare:store().home.fare,
+				status: "pending"
+			}
+		};
+		
+		request.post("http://192.168.100.187:3000/api/bookings")
+		.send(payload)
+		.then((error, res)=>{
+			dispatch({
+				type:BOOK_CAR,
+				payload:res.body
+			});
+			console.log(res);
+		});
+
+	};
 }
 
 //Action Handlers
@@ -241,6 +281,14 @@ function handleGetFare(state, action){
 		}
 	})
 }
+//book car
+function handleBookCar(state, action){
+	return update(state, {
+		booking:{
+			$set:action.payload
+		}
+	})
+}
 
 const ACTION_HANDLERS = {
 	GET_CURRENT_LOCATION:handleGetCurrentLocation,
@@ -250,6 +298,7 @@ const ACTION_HANDLERS = {
 	GET_SELECTED_ADDRESS:handleGetSelectedAddress,
 	GET_DISTANCE_MATRIX: handleGetDistanceMatrix,
 	GET_FARE: handleGetFare,
+	BOOK_CAR:handleBookCar,
 }
 
 const initialState = {

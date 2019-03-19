@@ -1,12 +1,14 @@
+var cors = require("cors");
+
 var express = require("express");
 var path = require("path");
 var bodyParser = require("body-parser");
 
 //connection
-const mongoose = require('mongoose')
-mongoose.connect('mongodb+srv://meliodas22:meliodas22@fproject-2pnc6.gcp.mongodb.net/TrikeProject', {useNewUrlParser: true})
-.then(() => console.log("connected"))
-.catch((err) => console.log(err))
+// const mongoose = require('mongoose')
+// mongoose.connect('mongodb+srv://meliodas22:meliodas22@fproject-2pnc6.gcp.mongodb.net/TrikeProject', {useNewUrlParser: true})
+// .then(() => console.log("connected"))
+// .catch((err) => console.log(err))
 
 var index = require("./routes/index");
 var bookings = require("./routes/bookings");
@@ -27,6 +29,7 @@ app.engine("html", require("ejs").renderFile);
 
 //Body Parser
 
+app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 

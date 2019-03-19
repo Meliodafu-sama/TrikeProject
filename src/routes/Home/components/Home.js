@@ -10,6 +10,7 @@ import { getCurrentLocation } from "../modules/home";
 import HeaderComponent from "../../../components/HeaderComponent";
 import FooterComponent from "../../../components/FooterComponent";
 import Fare from "./Fare";
+import Fab from "./Fab";
 
 const taxiLogo = require("../../../assets/img/taxi_logo_white.png")
 
@@ -42,6 +43,7 @@ export default class Home extends React.Component{
 					selectedAddress={this.props.selectedAddress}
 			/>
 			}
+			<Fab onPressAction={()=>this.props.bookCar()}/>
 			{
 				this.props.fare &&
 				<Fare fare={this.props.fare}/>

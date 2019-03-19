@@ -3,6 +3,7 @@ In order to run server
 cd to Project/Server and type nodemon
 
 then go to browser localhost:3000
+or localhost:3000/api/bookings
 
 @mongodb.com -> Cluster Name: FProject/Singapore Server
 
@@ -11,5 +12,20 @@ DB: meliodas22 = meliodas22
 "userName":"gab",
 "pickUp":"Quezon City",
 "dropOff":"Manila City",
+
+
+to get the file
+1. Download GitBash/GitCMD
+2. Open CMD 
+3. cd to directory where the file will be downloaded
+4. git clone [link of the project]
+5. If the file was downloaded run npm install on the project folder
+6. Open another CMD and change directory to 
+7. C:\Users\[yourPCNAME]\AppData\Local\Android\Sdk\platform-tools>
+8. type adb devices
+9. adb reverse tcp:8081 tcp:8081
+10. open another CMD and go to project folder again 
+11. run => react-native run-android
+
 
 

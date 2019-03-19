@@ -3,6 +3,7 @@ import {Platform, StyleSheet, Text, View} from 'react-native';
 
 import Root from "./src/main";
 
+console.disableYellowBox = true; //take out warning yellow card
 export default class App extends Component<Props> {
   render() {
     return (
